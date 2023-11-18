@@ -1,74 +1,59 @@
-<style>
+@php
+    $serialNumber = 1;
+@endphp
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Your Page Title</title>
+</head>
 
-    .table {
-                margin: auto;
-                border-collapse: collapse;
-                width: 50%;
-            }
+<body>
 
-            .table th,
-            .table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: left;
-            }
-
-            .table th {
-                background-color: #f2f2f2;
-            }
-            input{
-                height: 30px;
-        width: 200px;
-            }
-
-    </style>
-
+<div class="container mt-5">
     <table class="table">
-        <tr>
-            <td>country_id</td>
-            <td>Id</td>
-            <td>New Name</td>
-            <td>update id</td>
-            <td>action</td>
-        </tr>
-        {{-- <pre>{{print_r($cities)  }} </pre> --}}
-        @foreach ($duplicates as $duplicate)
-        @foreach ($cities as $city)
+        <thead>
+            <tr>
+                <th>Sr.n</th>
+                <th>Country ID</th>
+                <th>City ID</th>
+                <th>New Name + Country Name</th>
+                <th>Real ID</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{-- <pre>{{print_r($cities)  }} </pre> --}}
+            @foreach ($duplicates as $duplicate)
+                @foreach ($cities as $city)
+                    <form action="{{route('update_real_id' , $city->id )}}" method="POST">
+                        @if (strcasecmp($city->newname, $duplicate->newname) === 0)
+                            @csrf
 
-            @if (strcasecmp($city->newname, $duplicate->newname) === 0)
-            <form action="{{route('update_id' , $city->id )}}" method="POST">
-
+                            <tr>
+                                <td>{{ $serialNumber++ ." )" }}</td>
+                                <td><input type="number" class="form-control" name="country_id" value="{{ $city->country_id }}"></td>
+                                <td><input type="number" class="form-control" name="city_id" value="{{ $city->city_id }}"></td>
+                                <td>{{ $city->newname ." city in " .  $city->country->name }}</td>
+                                {{-- <td>{{ }}</td> --}}
+                                <td><input type="text" class="form-control" name="real_id" value="{{ $city->real_id }}"></td>
+                                <td><button type="submit" class="btn btn-primary">Update</button></td>
+                            </tr>
+                        @endif
+                    </form>
+                @endforeach
                 <tr>
-                    <td><input type="number" id="id" name="id" value="{{ $city->country_id }}"></td>
-                    <td><input type="number" id="id" name="id" value="{{ $city->city_id }}"></td>
-                    <td>{{ $city->newname }}</td>
-                    <td>{{ $city->country->name }}</td>
-                    <td> <input type="number" id="newId+{{ $city->id }}"></td>
-                    <td> <button type="submit" value="update">update</button></td>
+                    <td colspan="5">---</td> <!-- Separate duplicate groups -->
                 </tr>
-            </form>
-            @endif
-        @endforeach
-        <tr>
-            <td colspan="3">---</td> <!-- Separate duplicate groups -->
-        </tr>
-    @endforeach
-
+            @endforeach
+        </tbody>
     </table>
-
-    <script>
-    cities = {!! $cities !!}
-    duplicates = {!! $duplicates !!}
-    console.log(cities);
-    console.log(duplicates);
-
-
-    function updateCity(cityId) {
-            id= "newId+"+ cityId;
-            console.log(id);
-           var newId = document.getElementById(id).value;
-
-            location.href = '/updatecity/'+cityId+"/"+newId ;
-
-        }
-    </script>
+</div>
+<div class="mt-5">
+    {{-- {{ $cities->links() }} --}}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CityTranslation extends Model
-{   
+{
 
     use HasFactory;
 
@@ -14,6 +14,6 @@ class CityTranslation extends Model
     public function country(){
 
         return $this->belongsTo(CountryTranslation::class, 'country_id', 'country_id')->where('locale','en');
-  re
+
     }
 }
