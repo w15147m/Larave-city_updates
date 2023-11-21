@@ -9,4 +9,3 @@ Route::get('/', function () {
 });
 Route::get('/{a}', [UsersCity::class, 'ShowCity'])->name('home');
 Route::post('/update/{id}', [UsersCity::class, 'update_id'])-> name ('update_real_id');
-// Route::post('/update', [UsersCity::class, 'update_id'])->name('update_real_id');
